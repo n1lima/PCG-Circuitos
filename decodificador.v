@@ -1,5 +1,5 @@
 
-module decodificador(A, E, S);
+module decodificador(A, E, C);
 
     input [2:0] A;
     input E;
