@@ -2,9 +2,9 @@
 `include "decodificador.v"
 `include "somador8.v"
 `include "tristate.v"
-
 `include "subtrator8.v"
-
+`include "xor.v"
+`include "not.v"
 
 module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     input [7:0] a,b;
@@ -18,6 +18,7 @@ module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     wire [7:0] enable;
 
     wire [7:0] saida_tristate;
+    wire [7:0] xor_res, not_res;
 
     // Entrada de dados
     registrador regA(clk, a, 1'b1, 1'b1, a_reg);
@@ -34,12 +35,21 @@ module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     subtrator8 subtrator(a_reg,b_reg,sub_res);
     tristate tristate_subtracao(sub_res[7:0], saida_tristate, enable[1]); // OPCODE = 001 -> FAZ enable[1] = 1
 
+    // Operação XOR
+    xor_gate xor_modulo(.a(a_reg), .b(b_reg), .y(xor_res));
+    tristate tristate_xor(xor_res, saida_tristate, enable[2]); 
+
+    // Operação NOT 
+    not_gate not_modulo(.a(a_reg), .y(not_res));
+    tristate tristate_not(not_res, saida_tristate, enable[3]); 
+
     // Saída de dados
     registrador regS(clk, saida_tristate, 1'b1, 1'b1, s);
 
     always @(*) begin
         case (opcode)
             3'b000: flag = sum_res[8] ;
+            3'b001: flag = sub_res[8]; 
             default: flag = 1'b0;
         endcase
         
