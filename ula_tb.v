@@ -23,13 +23,24 @@ module ula_tb;
         a = 8'd5; b = 8'd10;
         #50;
         opcode = 3'b001; // Selecionar a subtracao
-        #50
+        #50;
+        opcode = 3'b010; // Selecionar and
+        a = 8'd5; b = 8'd10;
+        #50;
+        opcode = 3'b011; // Selecionar or
+        a = 8'd5; b = 8'd10;
+        #50;
+        opcode = 3'b100; // Selecionar xor
+        a = 8'd5; b = 8'd10;
+        #50;
+        opcode = 3'b101; // Selecionar not
+        a = 8'd5; 
+        #50;
         opcode = 3'b110; // Selecionar a operação de igualdade (A == B)
         a = 8'd8; b = 8'd8;  // A igual a B
         #50; 
         a = 8'd5; b = 8'd10; // A diferente de B
         #50; 
-
         opcode = 3'b111; // Selecionar a operação de desigualdade (A != B)
         a = 8'd8; b = 8'd8;  // A igual a B
         #50; 
