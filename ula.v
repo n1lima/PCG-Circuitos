@@ -39,13 +39,21 @@ module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     subtrator8 subtrator(a_reg,b_reg,sub_res);
     tristate tristate_subtracao(sub_res[7:0], saida_tristate, enable[1]); // OPCODE = 001 -> FAZ enable[1] = 1
 
+    // Operação AND
+    and_gate and_modulo(.a(a_reg), .b(b_reg), .y(and_res));
+    tristate tristate_and(and_res, saida_tristate, enable[2]); // OPCODE = 010 -> FAZ enable[2] = 1
+
+    // Operação OR
+    and_gate and_modulo(.a(a_reg), .b(b_reg), .y(and_res));
+    tristate tristate_or(and_res, saida_tristate, enable[3]); // OPCODE = 011 -> FAZ enable[3] = 1
+
     // Operação XOR
     xor_gate xor_modulo(a_reg, b_reg, xor_res);
-    tristate tristate_xor(xor_res[7:0], saida_tristate, enable[2]); 
+    tristate tristate_xor(xor_res[7:0], saida_tristate, enable[4]); // OPCODE = 100 -> FAZ enable[4] = 1
 
     // Operação NOT 
     not_gate not_modulo(a_reg, not_res);
-    tristate tristate_not(not_res[7:0], saida_tristate, enable[3]); 
+    tristate tristate_not(not_res[7:0], saida_tristate, enable[5]); // OPCODE = 101 -> FAZ enable[5] = 1
 
     // Operação de igualdade
     igualdade igualdade_modulo(.a(a_reg), .b(b_reg), .s(igualdade_res));
@@ -54,14 +62,7 @@ module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     // Operação de desigualdade
     desigualdade desigualdade_modulo(.a(a_reg), .b(b_reg), .s(desigualdade_res));
     tristate tristate_desigualdade({7'b0, desigualdade_res}, saida_tristate, enable[7]); // OPCODE = 111 -> FAZ enable[7] = 1
-
-    // Operação AND
-    and_gate and_modulo(.a(a_reg), .b(b_reg), .y(and_res));
-    tristate tristate_and(and_res, saida_tristate, enable[4]);
-
-    // Operação OR
-    and_gate and_modulo(.a(a_reg), .b(b_reg), .y(and_res));
-    tristate tristate_or(and_res, saida_tristate, anable[5]);
+""
 
     // Saída de dados
     registrador regS(clk, saida_tristate, 1'b1, 1'b1, s);
