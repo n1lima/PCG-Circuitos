@@ -4,6 +4,6 @@ module subtrator(a,b,c,s);
     output c,s;
 
     assign s = a ^ b;
-    assign c = (~a)& b;
+    assign c = (~a) & b;
     
 endmodule

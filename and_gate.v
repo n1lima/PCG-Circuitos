@@ -1,4 +1,4 @@
-module and (a, b, y);
+module and_gate(a, b, y);
 
 input  [7:0]a;
 input  [7:0]b;

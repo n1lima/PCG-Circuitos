@@ -5,7 +5,7 @@ module subtrator8(a, b, d);
 
     input [7:0] a, b;   
     output [8:0] d;      
-    wire [6:0] c;        
+    wire [7:0] c;        
 
     subtrator u1(a[0], b[0], 1'b0, d[0], c[0]);
     subtratorCompleto u2(a[1], b[1], c[0], d[1], c[1]);
