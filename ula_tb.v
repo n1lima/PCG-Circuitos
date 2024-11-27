@@ -23,6 +23,18 @@ module ula_tb;
         a = 8'd5; b = 8'd10;
         #50;
         opcode = 3'b001; // Selecionar a subtracao
+        #50
+        opcode = 3'b110; // Selecionar a operação de igualdade (A == B)
+        a = 8'd8; b = 8'd8;  // A igual a B
+        #50; 
+        a = 8'd5; b = 8'd10; // A diferente de B
+        #50; 
+
+        opcode = 3'b111; // Selecionar a operação de desigualdade (A != B)
+        a = 8'd8; b = 8'd8;  // A igual a B
+        #50; 
+        a = 8'd5; b = 8'd10; // A diferente de B
+        #50; 
 
 
         $display("Teste completo");

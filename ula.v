@@ -7,6 +7,8 @@
 `include "not.v"
 `include "and.v"
 `include "or.v"
+`include "igualdade.v"
+`include "desigualdade.v"
 
 module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     input [7:0] a,b;
@@ -38,12 +40,20 @@ module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     tristate tristate_subtracao(sub_res[7:0], saida_tristate, enable[1]); // OPCODE = 001 -> FAZ enable[1] = 1
 
     // Operação XOR
-    xor_gate xor_modulo(.a(a_reg), .b(b_reg), .y(xor_res));
-    tristate tristate_xor(xor_res, saida_tristate, enable[2]); 
+    xor_gate xor_modulo(a_reg, b_reg, xor_res);
+    tristate tristate_xor(xor_res[7:0], saida_tristate, enable[2]); 
 
     // Operação NOT 
-    not_gate not_modulo(.a(a_reg), .y(not_res));
-    tristate tristate_not(not_res, saida_tristate, enable[3]); 
+    not_gate not_modulo(a_reg, not_res);
+    tristate tristate_not(not_res[7:0], saida_tristate, enable[3]); 
+
+    // Operação de igualdade
+    igualdade igualdade_modulo(.a(a_reg), .b(b_reg), .s(igualdade_res));
+    tristate tristate_igualdade({7'b0, igualdade_res}, saida_tristate, enable[6]); // OPCODE = 110 -> FAZ enable[6] = 1
+
+    // Operação de desigualdade
+    desigualdade desigualdade_modulo(.a(a_reg), .b(b_reg), .s(desigualdade_res));
+    tristate tristate_desigualdade({7'b0, desigualdade_res}, saida_tristate, enable[7]); // OPCODE = 111 -> FAZ enable[7] = 1
 
     // Operação AND
     and_gate and_modulo(.a(a_reg), .b(b_reg), .y(and_res));
