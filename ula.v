@@ -5,6 +5,8 @@
 `include "subtrator8.v"
 `include "xor.v"
 `include "not.v"
+`include "and.v"
+`include "or.v"
 
 module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     input [7:0] a,b;
@@ -42,6 +44,14 @@ module ula #(parameter N = 8)(a, b, opcode, s, flag,clk);
     // Operação NOT 
     not_gate not_modulo(.a(a_reg), .y(not_res));
     tristate tristate_not(not_res, saida_tristate, enable[3]); 
+
+    // Operação AND
+    and_gate and_modulo(.a(a_reg), .b(b_reg), .y(and_res));
+    tristate tristate_and(and_res, saida_tristate, enable[4]);
+
+    // Operação OR
+    and_gate and_modulo(.a(a_reg), .b(b_reg), .y(and_res));
+    tristate tristate_or(and_res, saida_tristate, anable[5]);
 
     // Saída de dados
     registrador regS(clk, saida_tristate, 1'b1, 1'b1, s);
